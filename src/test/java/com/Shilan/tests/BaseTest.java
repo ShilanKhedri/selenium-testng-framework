@@ -1,22 +1,19 @@
 package com.Shilan.tests;
 
 import com.Shilan.utils.ConfigReader;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 
 public class BaseTest {
@@ -24,27 +21,46 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected InventoryPage inventoryPage;
     protected Cart cartPage;
-//    protected data data;
+
     public WebDriver getDriver() {
         return driver;
     }
+
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         String browser = ConfigReader.getProperty("browser");
+        boolean headless = isHeadless();
 
         switch (browser.toLowerCase()) {
             case "firefox":
-                driver = new FirefoxDriver();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                if (headless) {
+                    firefoxOptions.addArguments("-headless");
+                }
+                driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge":
-                driver = new EdgeDriver();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                if (headless) {
+                    edgeOptions.addArguments("--headless=new");
+                    edgeOptions.addArguments("--no-sandbox");
+                    edgeOptions.addArguments("--disable-dev-shm-usage");
+                    edgeOptions.addArguments("--window-size=1920,1080");
+                }
+                driver = new EdgeDriver(edgeOptions);
                 break;
             case "chrome":
             default:
-                driver = new ChromeDriver();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                if (headless) {
+                    chromeOptions.addArguments("--headless=new");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--window-size=1920,1080");
+                }
+                driver = new ChromeDriver(chromeOptions);
                 break;
         }
-
 
         int timeout = Integer.parseInt(ConfigReader.getProperty("timeout"));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
@@ -53,12 +69,18 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         inventoryPage = new InventoryPage(driver);
         cartPage = new Cart(driver);
-//        data = new data();
-
     }
+
     @AfterMethod
     public void tearDown(ITestResult result) throws IOException {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
-        driver.quit();
+    private boolean isHeadless() {
+        // config.properties OR CI env (GitHub Actions sets CI=true)
+        return ConfigReader.isHeadless()
+                || "true".equalsIgnoreCase(System.getenv("CI"));
     }
 }

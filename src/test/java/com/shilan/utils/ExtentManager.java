@@ -1,4 +1,4 @@
-package com.Shilan.utils;
+package com.shilan.utils;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;

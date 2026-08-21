@@ -1,18 +1,15 @@
-package com.Shilan.tests;
-import com.Shilan.listeners.TestListener;
-import com.Shilan.utils.ExcelReader;
+package com.shilan.tests;
+import com.shilan.listeners.TestListener;
+import com.shilan.utils.ExcelReader;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.*;
 import org.testng.annotations.*;
-import pages.LoginPage;
+
 import java.time.Duration;
 import java.util.List;
 

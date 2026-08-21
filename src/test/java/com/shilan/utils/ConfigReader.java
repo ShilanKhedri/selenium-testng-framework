@@ -1,4 +1,4 @@
-package com.Shilan.utils;
+package com.shilan.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

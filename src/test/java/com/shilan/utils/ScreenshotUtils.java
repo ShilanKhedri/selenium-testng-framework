@@ -1,4 +1,4 @@
-package com.Shilan.utils;
+package com.shilan.utils;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

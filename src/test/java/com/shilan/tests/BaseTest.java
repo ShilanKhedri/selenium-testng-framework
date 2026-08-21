@@ -1,6 +1,6 @@
-package com.Shilan.tests;
+package com.shilan.tests;
 
-import com.Shilan.utils.ConfigReader;
+import com.shilan.utils.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
